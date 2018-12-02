@@ -8,9 +8,9 @@ namespace AdventOfCode.Days
   public class DayOne : IDay
   {
 
-    public async Task<(string PartOne, string PartTwo)> Run(Func<bool, Task<string[]>> loadInputs)
+    public async Task<(string PartOne, string PartTwo)> Run(Func<Task<string[]>> loadInputs)
     {
-      List<long> frequencies = (await loadInputs(true)).Select(v => Int64.Parse(v)).ToList();
+      List<long> frequencies = (await loadInputs()).Select(v => Int64.Parse(v)).ToList();
       return (
         this.PartOne(frequencies),
         this.PartTwo(frequencies)

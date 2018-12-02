@@ -20,10 +20,13 @@ namespace AdventOfCode
     /// <returns></returns>
     private readonly Dictionary<int, IDay> DayHandlers;
 
-    public AOC(Dictionary<int, IDay> dayHandlers, HttpClient client)
+    private readonly InputCache Cache;
+
+    public AOC(Dictionary<int, IDay> dayHandlers, HttpClient client, InputCache cache)
     {
       this.DayHandlers = dayHandlers;
       this.Client = client;
+      this.Cache = cache;
     }
 
     public async Task<int> Run()
@@ -57,7 +60,7 @@ namespace AdventOfCode
         }
 
         // Run the handler
-        var results = await dayHandler.Run(async (split) => { return await this.LoadDayInput(dayNumber, split); });
+        var results = await dayHandler.Run(async () => { return await this.LoadDayInput(dayNumber); });
         Console.WriteLine("Part One: {1}{0}Part Two: {2}{0}{0}", System.Environment.NewLine, results.PartOne, results.PartTwo);
       }
     }
@@ -69,14 +72,25 @@ namespace AdventOfCode
     /// </summary>
     /// <param name="day"></param>
     /// <returns></returns>
-    private async Task<string[]> LoadDayInput(int day, bool split)
+    private async Task<string[]> LoadDayInput(int day)
     {
-      // Get the input data
-      HttpResponseMessage msg = await this.Client.GetAsync($"https://adventofcode.com/2018/day/{day}/input");
-      string data = await msg.Content.ReadAsStringAsync();
+      // Check cache
+      string[] lines = this.Cache.LoadDay(day);
+      if (lines is null)
+      {
+        Console.WriteLine("Info: Cache miss, loading from web...");
+        // Get the input data
+        HttpResponseMessage msg = await this.Client.GetAsync($"https://adventofcode.com/2018/day/{day}/input");
+        string data = await msg.Content.ReadAsStringAsync();
 
-      // Split by newline
-      return split ? data.Split('\n', StringSplitOptions.RemoveEmptyEntries) : new string[] { data };
+        // Split by newline
+        lines = data.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+
+        // Save
+        this.Cache.SaveDay(day, String.Join(System.Environment.NewLine, lines));
+        Console.WriteLine("Info: Input cached.");
+      }
+      return lines;
     }
 
   }

@@ -12,7 +12,8 @@ namespace AdventOfCode
     {
       return new AOC(
         Setup.SetupDayHandlers(),
-        Setup.SetupHTTPClient()
+        Setup.SetupHTTPClient(),
+        new InputCache()
         );
     }
 

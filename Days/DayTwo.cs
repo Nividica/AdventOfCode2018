@@ -6,9 +6,9 @@ namespace AdventOfCode.Days
 {
   public class DayTwo : IDay
   {
-    public async Task<(string PartOne, string PartTwo)> Run(Func<bool, Task<string[]>> loadInputs)
+    public async Task<(string PartOne, string PartTwo)> Run(Func<Task<string[]>> loadInputs)
     {
-      string[] inputLines = await loadInputs(true);
+      string[] inputLines = await loadInputs();
       return (this.PartOne(inputLines), this.PartTwoFluent(inputLines) + "  vs  " + this.PartTwoNestedLoops(inputLines));
     }
 

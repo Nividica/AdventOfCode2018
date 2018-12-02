@@ -5,6 +5,6 @@ namespace AdventOfCode
 {
   public interface IDay
   {
-    Task<(string PartOne, string PartTwo)> Run(Func<Boolean, Task<string[]>> loadInputs);
+    Task<(string PartOne, string PartTwo)> Run(Func<Task<string[]>> loadInputs);
   }
 }
