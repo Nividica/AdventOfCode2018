@@ -27,5 +27,13 @@ namespace AdventOfCode
       string dayPath = Path.Combine(this.TempPath, $"{day}.txt");
       File.WriteAllText(dayPath, data);
     }
+
+    public void ClearCache()
+    {
+      foreach (string item in Directory.EnumerateFiles(this.TempPath))
+      {
+        File.Delete(item);
+      }
+    }
   }
 }

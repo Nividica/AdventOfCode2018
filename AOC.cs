@@ -34,13 +34,19 @@ namespace AdventOfCode
       // Enter main loop
       while (true)
       {
-        Console.WriteLine("Enter day number, or nothing to exit");
+        Console.WriteLine("Enter day number, 'clean' to erase cache, 'exit' or nothing to exit");
         string userInput = Console.ReadLine();
 
         // Exit?
-        if (String.IsNullOrWhiteSpace(userInput))
+        if (String.IsNullOrWhiteSpace(userInput) || userInput == "exit")
         {
           return 0;
+        }
+        else if (userInput == "clean")
+        {
+          this.Cache.ClearCache();
+          Console.WriteLine("Cache cleared");
+          continue;
         }
 
         // Convert to day number
