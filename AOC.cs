@@ -56,9 +56,8 @@ namespace AdventOfCode
           continue;
         }
 
-        // Read the input
-        string[] inputLines = await this.LoadDayInput(dayNumber);
-        var results = dayHandler.Run(inputLines);
+        // Run the handler
+        var results = await dayHandler.Run(async (split) => { return await this.LoadDayInput(dayNumber, split); });
         Console.WriteLine("Part One: {1}{0}Part Two: {2}{0}{0}", System.Environment.NewLine, results.PartOne, results.PartTwo);
       }
     }
@@ -70,14 +69,14 @@ namespace AdventOfCode
     /// </summary>
     /// <param name="day"></param>
     /// <returns></returns>
-    private async Task<string[]> LoadDayInput(int day)
+    private async Task<string[]> LoadDayInput(int day, bool split)
     {
       // Get the input data
       HttpResponseMessage msg = await this.Client.GetAsync($"https://adventofcode.com/2018/day/{day}/input");
       string data = await msg.Content.ReadAsStringAsync();
 
       // Split by newline
-      return data.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+      return split ? data.Split('\n', StringSplitOptions.RemoveEmptyEntries) : new string[] { data };
     }
 
   }
