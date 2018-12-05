@@ -26,6 +26,7 @@ namespace AdventOfCode
       handlers.Add(1, new DayOne());
       handlers.Add(2, new DayTwo());
       handlers.Add(3, new DayThree());
+      handlers.Add(4, new DayFour());
       return handlers;
     }
 

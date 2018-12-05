@@ -55,11 +55,10 @@ namespace AdventOfCode.Days
     public async Task<(string PartOne, string PartTwo)> Run(Func<Task<string[]>> loadInputs)
     {
       string[] inputLines = await loadInputs();
-      var results = this.BothParts(inputLines);
-      return (results.OverlapSquares.ToString(), results.NoverlapID.ToString());
+      return (this.BothParts(inputLines));
     }
 
-    private (int OverlapSquares, int NoverlapID) BothParts(string[] inputLines)
+    private (string, string) BothParts(string[] inputLines)
     {
       // inputLines = new string[] {
       //   "#1 @ 1,3: 4x4",
@@ -95,9 +94,7 @@ namespace AdventOfCode.Days
         }
       }
 
-      var test = claims.Where(c => !c.HadOverlap);
-
-      return (overlaps.Count(), claims.Single(c => !c.HadOverlap).ID);
+      return (overlaps.Count().ToString(), claims.Single(c => !c.HadOverlap).ID.ToString());
     }
   }
 }
