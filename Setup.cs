@@ -25,6 +25,7 @@ namespace AdventOfCode
       Dictionary<int, IDay> handlers = new Dictionary<int, IDay>();
       handlers.Add(1, new DayOne());
       handlers.Add(2, new DayTwo());
+      handlers.Add(3, new DayThree());
       return handlers;
     }
 
